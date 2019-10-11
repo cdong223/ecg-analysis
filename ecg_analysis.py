@@ -3,6 +3,12 @@ import math
 import logging
 
 
+def calc_extremes(voltage):
+    max_voltage = max(voltage)
+    min_voltage = min(voltage)
+    return (min_voltage, max_voltage)
+
+
 def calc_duration(time):
     return time[-1] - time[0]
 
@@ -53,6 +59,7 @@ def main():
     filename = input("Enter filename: ")
     time, voltage = import_data(filename)
     duration = calc_duration(time)
+    extremes = calc_extremes(voltage)
 
 
 if __name__ == '__main__':
