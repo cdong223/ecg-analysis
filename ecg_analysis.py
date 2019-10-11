@@ -3,6 +3,10 @@ import math
 import logging
 
 
+def calc_duration(time):
+    return time[-1] - time[0]
+
+
 def check_range(voltage):
     for v in voltage:
         if v < -300 or v > 300:
@@ -48,6 +52,7 @@ def main():
                         filemode="w")
     filename = input("Enter filename: ")
     time, voltage = import_data(filename)
+    duration = calc_duration(time)
 
 
 if __name__ == '__main__':
