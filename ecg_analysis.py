@@ -3,6 +3,13 @@ import math
 import logging
 import matplotlib.pyplot as plt
 from scipy.signal import butter, lfilter
+import pandas as pd
+
+
+def moving_average(data):
+    df = pd.DataFrame(data)
+    rolling = df.rolling(window=40).mean()
+    return rolling
 
 
 def bandpass_filter(data, low_cutoff, high_cutoff, fs, order):
@@ -30,10 +37,13 @@ def qrs_detection(time, voltage):
     fs = sampling_freq(time)
     low_cutoff = 5.0
     high_cutoff = 15.0
-    fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True)
+    fig, (ax1, ax2, ax3, ax4) = plt.subplots(4, 1, sharex=True)
     ax1.plot(time, voltage)
     filtered = bandpass_filter(voltage, low_cutoff, high_cutoff, fs, 2)
     ax2.plot(time, filtered)
+    ax3.plot(time, filtered*filtered)
+    rolling = moving_average(filtered*filtered)
+    ax4.plot(time, rolling)
     plt.show()
 
 
