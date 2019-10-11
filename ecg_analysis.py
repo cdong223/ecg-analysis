@@ -27,6 +27,7 @@ def parse_add(t, v, time, voltage):
     time.append(t)
     voltage.append(v)
 
+
 def import_data(filename):
     time = []
     voltage = []
