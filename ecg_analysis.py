@@ -1,6 +1,40 @@
 import csv
 import math
 import logging
+import matplotlib.pyplot as plt
+from scipy.signal import butter, lfilter
+
+
+def bandpass_filter(data, low_cutoff, high_cutoff, fs, order):
+    nyq_freq = 0.5 * fs
+    low = low_cutoff / nyq_freq
+    high = high_cutoff / nyq_freq
+    b, a = butter(order, [low, high], btype='band')
+    filtered = lfilter(b, a, data)
+    return filtered
+
+
+def sampling_freq(time):
+    sum = 0
+    count = 0
+    for i in range(len(time)):
+        if i == 0:
+            continue
+        sum += time[i] - time[i - 1]
+        count += 1
+    average_period = sum/count
+    return 1/average_period
+
+
+def qrs_detection(time, voltage):
+    fs = sampling_freq(time)
+    low_cutoff = 5.0
+    high_cutoff = 15.0
+    fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True)
+    ax1.plot(time, voltage)
+    filtered = bandpass_filter(voltage, low_cutoff, high_cutoff, fs, 2)
+    ax2.plot(time, filtered)
+    plt.show()
 
 
 def calc_extremes(voltage):
@@ -60,6 +94,7 @@ def main():
     time, voltage = import_data(filename)
     duration = calc_duration(time)
     extremes = calc_extremes(voltage)
+    qrs_detection(time, voltage)
 
 
 if __name__ == '__main__':
