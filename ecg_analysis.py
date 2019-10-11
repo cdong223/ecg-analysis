@@ -6,8 +6,8 @@ import logging
 def check_range(voltage):
     for v in voltage:
         if v < -300 or v > 300:
-            logging.warning("Voltage contains values outside the normal range")
-            return
+            return False
+    return True
 
 
 def parse_add(t, v, time, voltage):
@@ -37,7 +37,9 @@ def import_data(filename):
             t = row[0]
             v = row[1]
             parse_add(t, v, time, voltage)
-    check_range(voltage)
+    isNormal = check_range(voltage)
+    if isNormal is False:
+        logging.warning("Voltage contains values outside the normal range")
     return time, voltage
 
 
