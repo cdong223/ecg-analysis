@@ -12,6 +12,12 @@ import matplotlib.pyplot as plt
 from scipy.signal import butter, find_peaks, sosfiltfilt
 
 
+def calc_bpm(peaks, fs):
+    sec_per_beat = ((peaks[-1] - peaks[0])/len(peaks))/fs
+    mean_hr_bpm = 60/sec_per_beat
+    return mean_hr_bpm
+
+
 def bandpass_filter(data, low_cutoff, high_cutoff, fs, order):
     nyq_freq = 0.5 * fs
     low = low_cutoff / nyq_freq
@@ -33,8 +39,7 @@ def sampling_freq(time):
     return 1/average_period
 
 
-def qrs_detection(time, voltage):
-    fs = sampling_freq(time)
+def qrs_detection(time, voltage, fs):
     low_cutoff = 5.0
     high_cutoff = 35.0
     filtered = bandpass_filter(voltage, low_cutoff, high_cutoff, fs, order=5)
@@ -42,7 +47,7 @@ def qrs_detection(time, voltage):
     squared_signal = diff_signal * diff_signal
     integrated_signal = 10*np.convolve(squared_signal, np.ones(int(fs/8)))
     peaks, _ = find_peaks(integrated_signal, distance=0.35*fs, prominence=0.2)
-    return peaks, len(peaks)
+    return peaks
     # fig, (ax1, ax2, ax3, ax4, ax5) = plt.subplots(5, 1, sharex=True)
     # ax1.plot(voltage)
     # ax1.plot(peaks, np.array(voltage)[peaks], "or")
@@ -109,9 +114,17 @@ def main():
                         filemode="w")
     filename = input("Enter filename: ")
     time, voltage = import_data(filename)
+    fs = sampling_freq(time)
     duration = calc_duration(time)
-    extremes = calc_extremes(voltage)
-    peaks, num_beats = qrs_detection(time, voltage)
+    voltage_extremes = calc_extremes(voltage)
+    peaks = qrs_detection(time, voltage, fs)
+    mean_hr_bpm = calc_bpm(peaks, fs)
+    print(duration)
+    print(voltage_extremes)
+    print(fs)
+    print(peaks)
+    print(len(peaks))
+    print(mean_hr_bpm)
 
 
 if __name__ == '__main__':
