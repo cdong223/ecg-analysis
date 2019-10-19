@@ -10,6 +10,37 @@ import math
 import logging
 import matplotlib.pyplot as plt
 from scipy.signal import butter, find_peaks, sosfiltfilt
+import json
+
+
+def create_metrics(duration, voltage_extremes, num_beats, mean_hr_bpm, beats):
+    metrics = {"duration":  duration,
+               "voltage_extremes":  voltage_extremes,
+               "num_beats":  num_beats,
+               "mean_hr_bpm": mean_hr_bpm,
+               "beats": beats}
+    return metrics
+
+
+def out_name(filename):
+    filename_data = filename.split("/")[1]
+    return filename_data.split(".")[0]
+
+
+def output_metrics(duration, voltage_extremes, num_beats, mean_hr_bpm, beats,
+                   filename):
+    filename = out_name(filename)
+    metrics = create_metrics(duration, voltage_extremes, num_beats,
+                             mean_hr_bpm, beats)
+    out_file = open("{}.json".format(filename), "w")
+    json.dump(metrics, out_file)
+    out_file.close()
+    return
+
+
+def find_beats(time, peaks):
+    beats = np.array(time)[peaks]
+    return beats.tolist()
 
 
 def calc_bpm(peaks, fs):
@@ -119,12 +150,9 @@ def main():
     voltage_extremes = calc_extremes(voltage)
     peaks = qrs_detection(time, voltage, fs)
     mean_hr_bpm = calc_bpm(peaks, fs)
-    print(duration)
-    print(voltage_extremes)
-    print(fs)
-    print(peaks)
-    print(len(peaks))
-    print(mean_hr_bpm)
+    beats = find_beats(time, peaks)
+    output_metrics(duration, voltage_extremes, len(beats), mean_hr_bpm,
+                   beats, filename)
 
 
 if __name__ == '__main__':
