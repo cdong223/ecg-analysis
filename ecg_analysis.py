@@ -63,11 +63,13 @@ def output_metrics(duration, voltage_extremes, num_beats, mean_hr_bpm, beats,
         None
     """
     filename = out_name(filename)
+    logging.info("Assigning metrics (dictionary entry)...")
     metrics = create_metrics(duration, voltage_extremes, num_beats,
                              mean_hr_bpm, beats)
     out_file = open("{}.json".format(filename), "w")
     json.dump(metrics, out_file)
     out_file.close()
+    logging.info("Generated JSON file containing metrics.")
     return
 
 
@@ -282,6 +284,7 @@ def import_data(filename):
     """
     time = []
     voltage = []
+    logging.info("Opening file...")
     with open(filename) as file:
         reader = csv.reader(file, delimiter=',')
         for row in reader:
@@ -290,7 +293,8 @@ def import_data(filename):
             parse_add(t, v, time, voltage)
     isNormal = check_range(voltage)
     if isNormal is False:
-        logging.warning("Voltage contains values outside the normal range")
+        logging.warning("File contains voltage(s) outside the normal range.")
+    logging.info("Finished reading file.")
     return time, voltage
 
 
@@ -298,6 +302,7 @@ def main():
     logging.basicConfig(filename="sequence.log", level=logging.DEBUG,
                         filemode="w")
     filename = input("Enter filename: ")
+    logging.info("Starting analysis of a new ECG trace: {}".format(filename))
     time, voltage = import_data(filename)
     fs = sampling_freq(time)
     duration = calc_duration(time)
