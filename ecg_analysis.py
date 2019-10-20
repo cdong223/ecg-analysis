@@ -22,7 +22,7 @@ def create_metrics(duration, voltage_extremes, num_beats, mean_hr_bpm, beats):
         voltage_extremes (float): tuple of min and max lead voltages
         num_beats (int): number of detected beats in strip
         mean_hr_bpm (float): average heart rate over length of strip
-        beats (float): list of times when a beat occured
+        beats (float): list of times when a beat occurred
 
     Returns:
         dictionary: metrics
@@ -111,9 +111,10 @@ def bandpass_filter(voltage, low_cutoff, high_cutoff, fs, order):
     cutoff frequency eliminates possible high frequency noise, allowing
     smoothing out of the signal.
     References:
-    - en.wikipedia.org/wiki/Pan-Tompkins_algorithm
-    - docs.scipy.org/doc/scipy/reference/generated/scipy.signal.butter.html
-    - github.com/marianpetruk/ECG_analysis
+    -en.wikipedia.org/wiki/Pan-Tompkins_algorithm
+    -docs.scipy.org/doc/scipy/reference/generated/scipy.signal.butter.html
+    -docs.scipy.org/doc/scipy/reference/generated/scipy.signal.sosfiltfilt.html
+    -github.com/marianpetruk/ECG_analysis
 
     Args:
         voltage (float): complete list of voltages pulled from original file
