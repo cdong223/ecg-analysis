@@ -15,6 +15,15 @@ import numpy as np
                                 ("lakd/laksdfj.csv", "laksdfj")
 ])
 def test_out_name(filename, expected):
+    """Unit test for the out_name function in ecg_analysis.py
+
+    Args:
+        filename_input (string): name of original file (ex. folder/file.csv)
+        expected (string): expected name of file
+
+    Returns:
+        None
+    """
     from ecg_analysis import out_name
     result = out_name(filename)
     assert result == expected
@@ -45,6 +54,17 @@ def test_out_name(filename, expected):
                                 ([0, 5, 10], np.array([1]), [5], 1)
 ])
 def test_find_beats(time, peaks, expected_beats, expected_num):
+    """Unit test for the find_beats function in ecg_analysis.py
+
+    Args:
+        time (float): complete list of times pulled from original file
+        peaks (ndarray): array of indices corresponding to location of R peaks
+        expected_beats (float): expected list of times corresponding to beats
+        expected_num (int): expected number of beats in ECG strip
+
+    Returns:
+        None
+    """
     from ecg_analysis import find_beats
     beats, num_beats = find_beats(time, peaks)
     assert beats == expected_beats

@@ -14,6 +14,16 @@ import pytest
                                 ([0, 200, 400, 600, 800], 108, 40.5)
 ])
 def test_calc_bpm(peaks, fs, expected):
+    """Unit test for the calc_bpm function in ecg_analysis.py
+
+    Args:
+        peaks (ndarray): array of indices corresponding to location of R peaks
+        fs (float): sampling frequency of ECG strip
+        expected (float): expected calculated bpm value
+
+    Returns:
+        None
+    """
     from ecg_analysis import calc_bpm
     result = calc_bpm(peaks, fs)
     assert pytest.approx(result) == expected

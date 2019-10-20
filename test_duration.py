@@ -14,6 +14,15 @@ import pytest
                                 ([0.5, 1.8], 1.3)
 ])
 def test_calc_duration(time, expected):
+    """Unit test for the calc_duration function in ecg_analysis.py
+
+    Args:
+        time (float): complete list of times pulled from original file
+        expected (float): expected duration value
+
+    Returns:
+        None
+    """
     from ecg_analysis import calc_duration
     result = calc_duration(time)
     assert result == pytest.approx(expected)

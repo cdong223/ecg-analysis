@@ -18,6 +18,15 @@ import pytest
                                 ([0.5, 1.8], (0.5, 1.8))
 ])
 def test_calc_extremes(voltage, expected):
+    """Unit test for the calc_extremes function in ecg_analysis.py
+
+    Args:
+        voltage (float): complete list of voltages pulled from original file
+        expected (float): expected tuple containing min and max voltages
+
+    Returns:
+        None
+    """
     from ecg_analysis import calc_extremes
     result = calc_extremes(voltage)
     assert result == expected
