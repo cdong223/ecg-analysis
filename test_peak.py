@@ -14,6 +14,15 @@ import pytest
                                 ([0.5, 0.7, 0.75, 0.8, 1.5], 4)
 ])
 def test_sampling_freq(time, expected):
+    """Unit test for the sampling_freq function in ecg_analysis.py
+
+    Args:
+        time (float): complete list of times pulled from original file
+        expected (float): expected calculated sampling frequency
+
+    Returns:
+        None
+    """
     from ecg_analysis import sampling_freq
     result = sampling_freq(time)
     assert result == pytest.approx(expected)
