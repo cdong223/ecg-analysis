@@ -40,7 +40,8 @@ def output_metrics(duration, voltage_extremes, num_beats, mean_hr_bpm, beats,
 
 def find_beats(time, peaks):
     beats = np.array(time)[peaks]
-    return beats.tolist()
+    beats = beats.tolist()
+    return beats, len(beats)
 
 
 def calc_bpm(peaks, fs):
@@ -150,8 +151,8 @@ def main():
     voltage_extremes = calc_extremes(voltage)
     peaks = qrs_detection(time, voltage, fs)
     mean_hr_bpm = calc_bpm(peaks, fs)
-    beats = find_beats(time, peaks)
-    output_metrics(duration, voltage_extremes, len(beats), mean_hr_bpm,
+    beats, num_beats = find_beats(time, peaks)
+    output_metrics(duration, voltage_extremes, num_beats, mean_hr_bpm,
                    beats, filename)
 
 
