@@ -1,5 +1,7 @@
 # ECG Analysis Assignment
 
+[![Build Status](https://travis-ci.com/bme547-fall2019/ecg-analysis-cdong223.svg?token=o3TBsFei64u2Cyoxf93i&branch=master)](https://travis-ci.com/bme547-fall2019/ecg-analysis-cdong223)
+
 ## Description
 The purpose of this program is to read in and analyze a csv file containing a strip of ECG data. The program determines certain metrics for each strip:
 
@@ -40,9 +42,32 @@ After this signal transformation is performed, the QRS peaks are detected using 
 ## Heart Rate Calculation
 The average heart rate is calculated using what is returned by the function in the program that detects QRS complexes, which is an array containing the indices corresponding to detected R peaks. The associated `calc_bpm` function also utilizes the sampling frequency of the ECG strip.
 
-First, the average period of each beat is calculated: ((index of last peak)-(index of first peak))/(number of beats). This period is in terms of the number of indices, and is then converted to seconds by dividing by the sampling frequency (which is essentially the number of indices per second). 
+First, the average period of each beat is calculated: ((index of last peak)-(index of first peak))/(number of beats). This period is in terms of the number of indices, and is then converted to seconds by dividing by the sampling frequency (which is essentially the number of indices per second).
 
 Subsequently, the average heart rate in bpm is calculated as 60 (sec/min) divided by the period of each beat in seconds (sec/beat).
+
+## License
+MIT License
+
+Copyright (c) 2019 Claire Dong
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 ## References
 - https://en.wikipedia.org/wiki/Pan-Tompkins_algorithm
