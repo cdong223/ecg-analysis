@@ -181,8 +181,8 @@ def qrs_detection(time, voltage, fs):
     filtered = bandpass_filter(voltage, low_cutoff, high_cutoff, fs, order=5)
     diff_signal = np.ediff1d(filtered)
     squared_signal = diff_signal * diff_signal
-    integrated_signal = 10*np.convolve(squared_signal, np.ones(int(fs/8)))
-    peaks, _ = find_peaks(integrated_signal, distance=0.35*fs, prominence=0.2)
+    integrated_signal = 10*np.convolve(squared_signal, np.ones(int(fs*0.15)))
+    peaks, _ = find_peaks(integrated_signal, distance=0.45*fs, prominence=0.05)
     return peaks
     # fig, (ax1, ax2, ax3, ax4, ax5) = plt.subplots(5, 1, sharex=True)
     # ax1.plot(voltage)
