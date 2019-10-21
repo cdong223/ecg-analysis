@@ -1,0 +1,401 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>ecg_analysis module &#8212; ECG Analysis v1.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="test_import_data module" href="test_import_data.html" />
+    <link rel="prev" title="Welcome to ECG Analysis’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-ecg_analysis">
+<span id="ecg-analysis-module"></span><h1>ecg_analysis module<a class="headerlink" href="#module-ecg_analysis" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="ecg_analysis.bandpass_filter">
+<code class="sig-prename descclassname">ecg_analysis.</code><code class="sig-name descname">bandpass_filter</code><span class="sig-paren">(</span><em class="sig-param">voltage</em>, <em class="sig-param">low_cutoff</em>, <em class="sig-param">high_cutoff</em>, <em class="sig-param">fs</em>, <em class="sig-param">order</em><span class="sig-paren">)</span><a class="headerlink" href="#ecg_analysis.bandpass_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies bandpass butterworth filter to voltage data set</p>
+<p>Lower cutoff frequency helps eliminate baseline drift, while the higher
+cutoff frequency eliminates possible high frequency noise, allowing
+smoothing out of the signal.
+References:
+-en.wikipedia.org/wiki/Pan-Tompkins_algorithm
+-docs.scipy.org/doc/scipy/reference/generated/scipy.signal.butter.html
+-docs.scipy.org/doc/scipy/reference/generated/scipy.signal.sosfiltfilt.html
+-github.com/marianpetruk/ECG_analysis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>voltage</strong> (<em>float</em>) – complete list of voltages pulled from original file</p></li>
+<li><p><strong>low_cutoff</strong> (<em>float</em>) – lower cutoff frequency for filter</p></li>
+<li><p><strong>high_cutoff</strong> (<em>float</em>) – upper cutoff frequency for filter</p></li>
+<li><p><strong>fs</strong> (<em>float</em>) – sampling frequency of ECG strip</p></li>
+<li><p><strong>order</strong> (<em>int</em>) – order of filter</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>filtered signal</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ecg_analysis.calc_bpm">
+<code class="sig-prename descclassname">ecg_analysis.</code><code class="sig-name descname">calc_bpm</code><span class="sig-paren">(</span><em class="sig-param">peaks</em>, <em class="sig-param">fs</em><span class="sig-paren">)</span><a class="headerlink" href="#ecg_analysis.calc_bpm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates average HR based on array of peaks found in ECG strip</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>peaks</strong> (<em>ndarray</em>) – array of indices corresponding to location of R peaks</p></li>
+<li><p><strong>fs</strong> (<em>float</em>) – sampling frequency of ECG strip</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>average heart rate in bpm</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ecg_analysis.calc_duration">
+<code class="sig-prename descclassname">ecg_analysis.</code><code class="sig-name descname">calc_duration</code><span class="sig-paren">(</span><em class="sig-param">time</em><span class="sig-paren">)</span><a class="headerlink" href="#ecg_analysis.calc_duration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the duration of the ECG strip</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time</strong> (<em>float</em>) – complete list of times pulled from original file</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>duration of ECG strip</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ecg_analysis.calc_extremes">
+<code class="sig-prename descclassname">ecg_analysis.</code><code class="sig-name descname">calc_extremes</code><span class="sig-paren">(</span><em class="sig-param">voltage</em><span class="sig-paren">)</span><a class="headerlink" href="#ecg_analysis.calc_extremes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves the minimum and maximum lead voltages from the ECG strip</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>voltages</strong> (<em>float</em>) – complete list of voltages pulled from original file</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>tuple containing min and max lead voltages</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ecg_analysis.check_range">
+<code class="sig-prename descclassname">ecg_analysis.</code><code class="sig-name descname">check_range</code><span class="sig-paren">(</span><em class="sig-param">voltage</em><span class="sig-paren">)</span><a class="headerlink" href="#ecg_analysis.check_range" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks to see if the file contains a voltage reading outside +/- 300mV</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>voltages</strong> (<em>float</em>) – complete list of voltages pulled from original file</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>the file contains a voltage outside the normal range</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>boolean</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ecg_analysis.create_metrics">
+<code class="sig-prename descclassname">ecg_analysis.</code><code class="sig-name descname">create_metrics</code><span class="sig-paren">(</span><em class="sig-param">duration</em>, <em class="sig-param">voltage_extremes</em>, <em class="sig-param">num_beats</em>, <em class="sig-param">mean_hr_bpm</em>, <em class="sig-param">beats</em><span class="sig-paren">)</span><a class="headerlink" href="#ecg_analysis.create_metrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create metrics for an ECG data file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>duration</strong> (<em>float</em>) – time duration of ECG strip</p></li>
+<li><p><strong>voltage_extremes</strong> (<em>float</em>) – tuple of min and max lead voltages</p></li>
+<li><p><strong>num_beats</strong> (<em>int</em>) – number of detected beats in strip</p></li>
+<li><p><strong>mean_hr_bpm</strong> (<em>float</em>) – average heart rate over length of strip</p></li>
+<li><p><strong>beats</strong> (<em>float</em>) – list of times when a beat occurred</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>metrics</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dictionary</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ecg_analysis.find_beats">
+<code class="sig-prename descclassname">ecg_analysis.</code><code class="sig-name descname">find_beats</code><span class="sig-paren">(</span><em class="sig-param">time</em>, <em class="sig-param">peaks</em><span class="sig-paren">)</span><a class="headerlink" href="#ecg_analysis.find_beats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns list of times corresponding to beats in the ECG strip</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>time</strong> (<em>float</em>) – complete list of times pulled from original file</p></li>
+<li><p><strong>peaks</strong> (<em>ndarray</em>) – array of indices corresponding to location of R peaks</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>list of times corresponding to beats
+int: length of beats, i.e. number of beats in ECG strip</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ecg_analysis.import_data">
+<code class="sig-prename descclassname">ecg_analysis.</code><code class="sig-name descname">import_data</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="headerlink" href="#ecg_analysis.import_data" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Parses through file for time-voltage data points and calls parse_add()</dt><dd><p>function for further analysis. Calls function to checl if the file
+contains a voltage outside the normal range.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>time</strong> (<em>float</em>) – complete list of times pulled from original file</p></li>
+<li><p><strong>voltages</strong> (<em>float</em>) – complete list of voltages pulled from original file</p></li>
+<li><p><strong>t</strong> (<em>string</em>) – time entry currently being analyzed from file</p></li>
+<li><p><strong>v</strong> (<em>string</em>) – voltage entry currently being analyzed from file</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>list of valid time points from file
+float: list of valid voltage points from file</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ecg_analysis.main">
+<code class="sig-prename descclassname">ecg_analysis.</code><code class="sig-name descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ecg_analysis.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="ecg_analysis.out_name">
+<code class="sig-prename descclassname">ecg_analysis.</code><code class="sig-name descname">out_name</code><span class="sig-paren">(</span><em class="sig-param">filename_input</em><span class="sig-paren">)</span><a class="headerlink" href="#ecg_analysis.out_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves appropriate filename to match json file to original file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename_input</strong> (<em>string</em>) – name of original file (ex. folder/file.csv)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>filename</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ecg_analysis.output_metrics">
+<code class="sig-prename descclassname">ecg_analysis.</code><code class="sig-name descname">output_metrics</code><span class="sig-paren">(</span><em class="sig-param">duration</em>, <em class="sig-param">voltage_extremes</em>, <em class="sig-param">num_beats</em>, <em class="sig-param">mean_hr_bpm</em>, <em class="sig-param">beats</em>, <em class="sig-param">filename</em><span class="sig-paren">)</span><a class="headerlink" href="#ecg_analysis.output_metrics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Outputs metrics data into respective JSON files</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>duration</strong> (<em>float</em>) – time duration of ECG strip</p></li>
+<li><p><strong>voltage_extremes</strong> (<em>float</em>) – tuple of min and max lead voltages</p></li>
+<li><p><strong>num_beats</strong> (<em>int</em>) – number of detected beats in strip</p></li>
+<li><p><strong>mean_hr_bpm</strong> (<em>float</em>) – average heart rate over length of strip</p></li>
+<li><p><strong>beats</strong> (<em>float</em>) – list of times when a beat occured</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ecg_analysis.parse_add">
+<code class="sig-prename descclassname">ecg_analysis.</code><code class="sig-name descname">parse_add</code><span class="sig-paren">(</span><em class="sig-param">t</em>, <em class="sig-param">v</em>, <em class="sig-param">time</em>, <em class="sig-param">voltage</em><span class="sig-paren">)</span><a class="headerlink" href="#ecg_analysis.parse_add" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Analyzes time-voltage data points and stores them in respective lists.</dt><dd><p>If either value in a time-voltage pair is missing, contains a
+non-numeric string, or is NaN, this occurrence is logged and the pair is
+skipped over.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>time</strong> (<em>float</em>) – complete list of times pulled from original file</p></li>
+<li><p><strong>voltages</strong> (<em>float</em>) – complete list of voltages pulled from original file</p></li>
+<li><p><strong>t</strong> (<em>string</em>) – time entry currently being analyzed from file</p></li>
+<li><p><strong>v</strong> (<em>string</em>) – voltage entry currently being analyzed from file</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ecg_analysis.qrs_detection">
+<code class="sig-prename descclassname">ecg_analysis.</code><code class="sig-name descname">qrs_detection</code><span class="sig-paren">(</span><em class="sig-param">time</em>, <em class="sig-param">voltage</em>, <em class="sig-param">fs</em><span class="sig-paren">)</span><a class="headerlink" href="#ecg_analysis.qrs_detection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Detects the number and locations of QRS complexes in an ECG strip</p>
+<p>Process based on the Pan-Tompkins algorithm:
+- bandpass filter: minimize baseline wander and noise
+- differentiation: emphasize R peaks, which have steeper slopes
+- squaring: further enhance the dominant (R) peaks
+- integration: smooth out the signal for more accurate peak detection
+References:
+- en.wikipedia.org/wiki/Pan-Tompkins_algorithm
+- biopac.com/knowledge-base/extracting-heart-rate-from-a-noisy-ecg-signal/
+- docs.scipy.org/doc/scipy/reference/generated/scipy.signal.find_peaks.html
+- github.com/marianpetruk/ECG_analysis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>time</strong> (<em>float</em>) – complete list of times pulled from original file</p></li>
+<li><p><strong>voltages</strong> (<em>float</em>) – complete list of voltages pulled from original file</p></li>
+<li><p><strong>fs</strong> (<em>float</em>) – sampling frequency of ECG strip</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>array of locations (indices) of peaks in signal</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ecg_analysis.sampling_freq">
+<code class="sig-prename descclassname">ecg_analysis.</code><code class="sig-name descname">sampling_freq</code><span class="sig-paren">(</span><em class="sig-param">time</em><span class="sig-paren">)</span><a class="headerlink" href="#ecg_analysis.sampling_freq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the average sampling frequency of the ECG strip</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>time</strong> (<em>float</em>) – complete list of times pulled from original file</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>average sampling frequency</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">ECG Analysis</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">ecg_analysis module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test_import_data.html">test_import_data module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test_duration.html">test_duration module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test_extremes.html">test_extremes module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test_peak.html">test_peak module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test_hr.html">test_hr module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="test_output.html">test_output module</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to ECG Analysis’s documentation!</a></li>
+      <li>Next: <a href="test_import_data.html" title="next chapter">test_import_data module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Claire Dong.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/ecg_analysis.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
