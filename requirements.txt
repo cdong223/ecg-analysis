@@ -3,4 +3,4 @@ pytest-pep8
 numpy
 scipy
 matplotlib
-pandas
+sphinx
